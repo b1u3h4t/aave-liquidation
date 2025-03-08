@@ -53,7 +53,7 @@ sequenceDiagram
 
 participant DB as DBActor
 participant Fanatic as FanaticActor
-participant Bum as BumActor
+participant Follower as FollowerActor
 participant Executor as ExecutorActor
 
 Fanatic ->> DB: GetProtocolDetailsId
@@ -62,14 +62,14 @@ Fanatic ->> DB: GetReservesUsers
 
 Fanatic -> Fanatic: init_reserves()
 
-Fanatic ->> Bum: SendFanaticAddr
-Fanatic ->> Bum: StartListeningForOraclePrices
-Fanatic ->> Bum: StartListeningForEvents
+Fanatic ->> Follower: SendFanaticAddr
+Fanatic ->> Follower: StartListeningForOraclePrices
+Fanatic ->> Follower: StartListeningForEvents
 
 rect rgb(30, 30, 30)
-    Bum ->> Bum: listen_oracle_prices()
-    Bum ->> DB: UpdateOraclePrice
-    Bum ->> Fanatic: UpdateReservePrice
+    Follower ->> Follower: listen_oracle_prices()
+    Follower ->> DB: UpdateOraclePrice
+    Follower ->> Fanatic: UpdateReservePrice
     Fanatic ->> Fanatic: verify health factors
     Fanatic ->> Fanatic: update in memory state
     Fanatic ->> Executor: liquidation request
@@ -78,14 +78,14 @@ rect rgb(30, 30, 30)
 end
 
 rect rgb(30, 30, 30)
-    Bum ->> Bum: listen_events()
+    Follower ->> Follower: listen_events()
     rect rgb(40, 40, 40)
-        Bum ->> Fanatic: DoSmthWithLiquidationCall
+        Follower ->> Fanatic: DoSmthWithLiquidationCall
         Fanatic ->> DB: InsertLiquidation
     end
 
     rect rgb(50, 50, 50)
-        Bum ->> Fanatic: UpdateReserveUser
+        Follower ->> Fanatic: UpdateReserveUser
         Fanatic ->> Fanatic: verify health factor
         Fanatic ->> Fanatic: update in memory state
         Fanatic ->> Executor: liquidation request
@@ -94,7 +94,7 @@ rect rgb(30, 30, 30)
     end
 
     rect rgb(60, 60, 60)
-        Bum ->> DB: UpsertReserveStats
+        Follower ->> DB: UpsertReserveStats
     end
 end
 ```
