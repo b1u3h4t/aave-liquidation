@@ -10,8 +10,8 @@ use sqlx::postgres::PgPoolOptions;
 use tokio::signal::unix::{signal, SignalKind};
 
 use crate::{
-    actors::{Bum, Database, Executor, Fanatic},
-    configs::{BumConfig, Config, DatabaseConfig, ExecutorConfig, FanaticConfig},
+    actors::{Database, Executor, Fanatic, Follower},
+    configs::{Config, DatabaseConfig, ExecutorConfig, FanaticConfig, FollowerConfig},
 };
 
 #[derive(Message)]
@@ -50,21 +50,21 @@ pub async fn run(config: Config) {
     .await
     .start();
 
-    /* Spin up the bum actor */
-    let bum_addr = Bum::new(BumConfig {
+    /* Spin up the follower actor */
+    let follower_addr = Follower::new(FollowerConfig {
         provider: provider_with_wallet.clone(),
         db_addr: db_addr.clone(),
         target: config.target.clone(),
     })
     .await
-    .expect("Unable to initialise Bum actor")
+    .expect("Unable to initialise follower actor")
     .start();
 
     /* Spin up the fanatic actor */
     let fanatic_addr = Fanatic::new(FanaticConfig {
         provider: provider_with_wallet.clone(),
         db_addr: db_addr.clone(),
-        bum_addr: bum_addr.clone(),
+        follower_addr: follower_addr.clone(),
         target: config.target.clone(),
     })
     .await

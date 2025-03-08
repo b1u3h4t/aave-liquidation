@@ -23,7 +23,7 @@ use crate::{
             fanatic::{DoSmthWithLiquidationCall, UpdateReservePrice, UpdateReserveUser},
             follower::{SendFanaticAddr, StartListeningForEvents, StartListeningForOraclePrices},
         },
-        Bum,
+        Follower,
     },
     configs::FanaticConfig,
     consts::RAY,
@@ -35,7 +35,7 @@ pub struct Fanatic<P: Provider + Unpin + Clone + 'static> {
     provider: P,
 
     db_addr: Addr<Database>,
-    bum_addr: Addr<Bum<P>>,
+    follower_addr: Addr<Follower<P>>,
     executor_addr: Option<Addr<Executor<P>>>,
 
     pool_contract: contracts::aave_v3::PoolContract::PoolContractInstance<(), P>,
@@ -55,12 +55,15 @@ impl<P: Provider + Unpin + Clone + 'static> Actor for Fanatic<P> {
 
     fn started(&mut self, ctx: &mut Self::Context) {
         let addr = ctx.address();
-        let bum_addr = self.bum_addr.clone();
+        let follower_addr = self.follower_addr.clone();
 
         let fut = async move {
-            bum_addr.send(SendFanaticAddr(addr)).await.unwrap();
-            bum_addr.send(StartListeningForOraclePrices).await.unwrap();
-            bum_addr.send(StartListeningForEvents).await.unwrap();
+            follower_addr.send(SendFanaticAddr(addr)).await.unwrap();
+            follower_addr
+                .send(StartListeningForOraclePrices)
+                .await
+                .unwrap();
+            follower_addr.send(StartListeningForEvents).await.unwrap();
         };
 
         ctx.spawn(fut.into_actor(self));
@@ -186,7 +189,7 @@ impl<P: Provider + Unpin + Clone + 'static> Fanatic<P> {
         Ok(Fanatic {
             provider: config.provider,
             db_addr: config.db_addr,
-            bum_addr: config.bum_addr,
+            follower_addr: config.follower_addr,
             executor_addr: None,
             pool_contract,
             datap_contract,

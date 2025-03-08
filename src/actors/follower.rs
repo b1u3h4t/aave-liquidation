@@ -14,12 +14,12 @@ use crate::{
         },
         Database, Fanatic,
     },
-    configs::BumConfig,
+    configs::FollowerConfig,
     consts::RAY,
 };
 
 #[derive(Debug, Clone)]
-pub struct Bum<P: Provider + Unpin + Clone + 'static> {
+pub struct Follower<P: Provider + Unpin + Clone + 'static> {
     provider: P,
     filter: Filter,
 
@@ -33,15 +33,15 @@ pub struct Bum<P: Provider + Unpin + Clone + 'static> {
     target: String,
 }
 
-impl<P: Provider + Unpin + Clone + 'static> Actor for Bum<P> {
+impl<P: Provider + Unpin + Clone + 'static> Actor for Follower<P> {
     type Context = Context<Self>;
 
     fn started(&mut self, _: &mut Self::Context) {
-        info!("[started] Bum");
+        info!("[started] Follower");
     }
 }
 
-impl<P: Provider + Unpin + Clone + 'static> Handler<SendFanaticAddr<P>> for Bum<P> {
+impl<P: Provider + Unpin + Clone + 'static> Handler<SendFanaticAddr<P>> for Follower<P> {
     type Result = ();
 
     fn handle(&mut self, msg: SendFanaticAddr<P>, _: &mut Context<Self>) -> Self::Result {
@@ -49,7 +49,7 @@ impl<P: Provider + Unpin + Clone + 'static> Handler<SendFanaticAddr<P>> for Bum<
     }
 }
 
-impl<P: Provider + Unpin + Clone + 'static> Handler<StartListeningForOraclePrices> for Bum<P> {
+impl<P: Provider + Unpin + Clone + 'static> Handler<StartListeningForOraclePrices> for Follower<P> {
     type Result = ();
 
     fn handle(
@@ -61,7 +61,7 @@ impl<P: Provider + Unpin + Clone + 'static> Handler<StartListeningForOraclePrice
     }
 }
 
-impl<P: Provider + Unpin + Clone + 'static> Handler<StartListeningForEvents> for Bum<P> {
+impl<P: Provider + Unpin + Clone + 'static> Handler<StartListeningForEvents> for Follower<P> {
     type Result = ();
 
     fn handle(&mut self, _: StartListeningForEvents, ctx: &mut Context<Self>) -> Self::Result {
@@ -69,8 +69,8 @@ impl<P: Provider + Unpin + Clone + 'static> Handler<StartListeningForEvents> for
     }
 }
 
-impl<P: Provider + Unpin + Clone + 'static> Bum<P> {
-    pub async fn new(config: BumConfig<P>) -> eyre::Result<Self> {
+impl<P: Provider + Unpin + Clone + 'static> Follower<P> {
+    pub async fn new(config: FollowerConfig<P>) -> eyre::Result<Self> {
         let contracts = config
             .db_addr
             .send(database::GetProtocolContracts(config.target.clone()))

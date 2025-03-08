@@ -8,4 +8,4 @@ pub mod follower;
 pub use database::Database;
 pub use executor::Executor;
 pub use fanatic::Fanatic;
-pub use follower::Bum;
+pub use follower::Follower;
