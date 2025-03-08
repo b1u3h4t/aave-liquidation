@@ -14,7 +14,7 @@ The setup is abstracted enough to work on any and all Aave forks, on all EVM-com
 - `PoolAddressesProvider`
 - `UiPoolDataProviderV3`
 
-Simply create a new migration file in `migrations/`, copy (20240101010102_insert_val)[./migrations/20240101010102_insert_val.sql] and adjust the values accordingly.
+Simply create a new migration file in `migrations/`, copy [20240101010102_insert_val](./migrations/20240101010102_insert_val.sql) and adjust the values accordingly.
 
 ## Idiosyncrasies
 
@@ -79,12 +79,12 @@ end
 
 rect rgb(240, 240, 240)
     Bum ->> Bum: listen_events()
-    rect rgb(225, 225, 225)
+    rect rgb(40, 40, 40)
         Bum ->> Fanatic: DoSmthWithLiquidationCall
         Fanatic ->> DB: InsertLiquidation
     end
 
-    rect rgb(225, 225, 225)
+    rect rgb(50, 50, 50)
         Bum ->> Fanatic: UpdateReserveUser
         Fanatic ->> Fanatic: verify health factor
         Fanatic ->> Fanatic: update in memory state
