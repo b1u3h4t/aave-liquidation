@@ -93,7 +93,7 @@ rect rgb(30, 30, 30)
         Executor --> Executor: execute tx
     end
 
-    rect rgb(225, 225, 225)
+    rect rgb(60, 60, 60)
         Bum ->> DB: UpsertReserveStats
     end
 end
