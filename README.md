@@ -66,7 +66,7 @@ Fanatic ->> Bum: SendFanaticAddr
 Fanatic ->> Bum: StartListeningForOraclePrices
 Fanatic ->> Bum: StartListeningForEvents
 
-rect rgb(240, 240, 240)
+rect rgb(30, 30, 30)
     Bum ->> Bum: listen_oracle_prices()
     Bum ->> DB: UpdateOraclePrice
     Bum ->> Fanatic: UpdateReservePrice
@@ -77,7 +77,7 @@ rect rgb(240, 240, 240)
     Executor --> Executor: execute liquidation
 end
 
-rect rgb(240, 240, 240)
+rect rgb(30, 30, 30)
     Bum ->> Bum: listen_events()
     rect rgb(40, 40, 40)
         Bum ->> Fanatic: DoSmthWithLiquidationCall
