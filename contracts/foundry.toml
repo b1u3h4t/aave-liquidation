@@ -1,0 +1,29 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+
+remappings = [
+    # makes dependency import cleaner
+    "@=./src",
+
+    # dependencies - general
+    "@forge-std=lib/forge-std/src",
+    "@openzeppelin=lib/openzeppelin/contracts",
+
+    # dependencies - protocols
+    "@aave-v3=lib/aave-v3/src/contracts",
+    "@uniswap-v3-periphery=lib/uniswap-v3-periphery/contracts",
+]
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = false
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+[rpc_endpoints]
+ethereum = "https://eth.merkle.io"
+
+[etherscan]
+mainnet = { key = "${ETHERSCAN_ETHEREUM_API_KEY}" }
