@@ -1,7 +1,7 @@
 INSERT INTO
     networks (id, chain_id)
 VALUES
-    ('ethereum', 1);
+    ('avalanche', 43114);
 
 -- The protocol (i.e aave_v3)
 INSERT INTO
@@ -9,7 +9,7 @@ INSERT INTO
 VALUES
     ('aave_v3', 'Aave V3', 'lending');
 
--------------- ethereum --------------
+-------------- avalanche --------------
 WITH
     inserted_protocol AS (
         INSERT INTO
@@ -20,7 +20,7 @@ WITH
                 deployed_at
             )
         VALUES
-            ('aave_v3', 'ethereum', 16291127, '2023-01-27') RETURNING id
+            ('aave_v3', 'avalanche', 11970506, '2022-05-11') RETURNING id
     )
 INSERT INTO
     protocols_contracts (protocol_details_id, name, address)
@@ -34,15 +34,15 @@ FROM
         VALUES
             (
                 'Pool',
-                '0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2'
+                '0x794a61358D6845594F94dc1DB02A252b5b4814aD'
             ),
             (
                 'PoolAddressesProvider',
-                '0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9e'
+                '0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb'
             ),
             (
                 'UiPoolDataProviderV3',
-                '0x3F78BBD206e4D3c504Eb854232EdA7e47E9Fd8FC'
+                '0x50B4a66bF4D41e6252540eA7427D7A933Bc3c088'
             )
     ) AS contracts (name, address);
 
@@ -52,7 +52,7 @@ INSERT INTO
 VALUES
     ('uniswap_v3', 'Uniswap V3', 'dex');
 
--------------- ethereum --------------
+-------------- avalanche --------------
 WITH
     inserted_protocol AS (
         INSERT INTO
@@ -63,7 +63,7 @@ WITH
                 deployed_at
             )
         VALUES
-            ('uniswap_v3', 'ethereum', null, null) RETURNING id
+            ('uniswap_v3', 'avalanche', null, null) RETURNING id
     )
 INSERT INTO
     protocols_contracts (protocol_details_id, name, address)
@@ -77,10 +77,10 @@ FROM
         VALUES
             (
                 'UniswapV3Factory',
-                '0x1F98431c8aD98523631AE4a59f267346ea31F984'
+                '0x740b1c1de25031C31FF4fC9A62f554A55cdC1baD'
             ),
             (
                 'QuoterV2',
-                '0x61fFE014bA17989E743c5F6cB21bF9697530B21e'
+                '0xbe0F5544EC67e9B3b2D979aaA43f18Fd87E6257F'
             )
     ) AS contracts (name, address);
