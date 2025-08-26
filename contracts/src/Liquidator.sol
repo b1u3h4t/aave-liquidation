@@ -94,7 +94,7 @@ contract Liquidatoor is FlashLoanSimpleReceiverBase, Ownable {
                     recipient: address(this),
                     deadline: block.timestamp + 10,
                     amountIn: collateralBalance,
-                    amountOutMinimum: 0
+                    amountOutMinimum: 0,
                     sqrtPriceLimitX96: 0
                 });
 
